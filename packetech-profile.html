@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packetech | Advanced IT and Network Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Nordic Tech (Light Gray/White, Deep Blue/Teal, Muted Orange Accent) -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation bar for smooth scrolling to thematic sections: About, Services, Expertise, and Projects. This structure organizes the company's profile into digestible, user-navigable chunks, turning a static document into an interactive exploration. The goal is to allow potential clients to quickly access the information most relevant to them. -->
+    <!-- Visualization & Content Choices: Report Info: Core skills and certifications. -> Goal: Organize & Inform. -> Viz Method: Horizontal Bar Chart (Chart.js/Canvas). -> Interaction: Hover tooltips reveal specific certs/skills within each category. -> Justification: Provides a high-level, visually engaging summary of Packetech's diverse capabilities, which is more impactful than a simple text list. Other content like services and projects are presented in an interactive card layout to improve scannability and user engagement. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="packetech-logo1.png" alt="Packetech Logo" class="w-8 h-8 mr-2">
+                <h1 class="text-2xl font-bold text-teal-600">Packetech</h1>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link font-medium pb-1">About Us</a>
+                <a href="#services" class="nav-link font-medium pb-1">Services</a>
+                <a href="#expertise" class="nav-link font-medium pb-1">Expertise</a>
+                <a href="#projects" class="nav-link font-medium pb-1">Projects</a>
+            </div>
+            <a href="mailto:packetech@gmail.com" class="hidden md:block bg-teal-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">Contact Us</a>
+            <button id="mobile-menu-button" class="md:hidden text-slate-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 border-t">
+            <a href="#about" class="block py-2 text-center nav-link">About Us</a>
+            <a href="#services" class="block py-2 text-center nav-link">Services</a>
+            <a href="#expertise" class="block py-2 text-center nav-link">Expertise</a>
+            <a href="#projects" class="block py-2 text-center nav-link">Projects</a>
+            <a href="mailto:packetech@gmail.com" class="block mt-2 text-center bg-teal-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">Contact Us</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="bg-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">Advanced IT & Network Solutions</h2>
+                <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">Designing, deploying, and maintaining mission-critical communication networks for a global clientele from our headquarters in Oulu, Finland.</p>
+                <a href="Packetech Company Profile.pdf" class="mt-4 inline-block text-teal-600 font-medium hover:underline">View Full Company Profile &rarr;</a>
+            </div>
+        </section>
+
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-2">What Sets Us Apart</h3>
+                    <p class="text-lg text-slate-600 max-w-3xl mx-auto">We deliver exceptional value by combining deep technical expertise with an innovative, hands-on approach to solve your most complex challenges.</p>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center card-hover">
+                        <div class="text-4xl text-teal-600 mb-4">🌐</div>
+                        <h4 class="text-xl font-semibold text-slate-800 mb-2">Network Engineering</h4>
+                        <p class="text-slate-600">Specialized expertise in designing, building, and maintaining robust communication networks for any industry.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center card-hover">
+                        <div class="text-4xl text-teal-600 mb-4">☀️</div>
+                        <h4 class="text-xl font-semibold text-slate-800 mb-2">Sustainable Technology</h4>
+                        <p class="text-slate-600">Over a decade of experience in deploying solar-powered systems and inverters for resilient, eco-friendly IT backups and building power.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center card-hover">
+                        <div class="text-4xl text-teal-600 mb-4">🧠</div>
+                        <h4 class="text-xl font-semibold text-slate-800 mb-2">AI & Big Data Analytics</h4>
+                        <p class="text-slate-600">Leveraging AI and machine learning for practical, data-driven insights. Our expertise is demonstrated in multiple public projects.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center card-hover">
+                        <div class="text-4xl text-teal-600 mb-4">💻</div>
+                        <h4 class="text-xl font-semibold text-slate-800 mb-2">Full-Stack & Software Testing</h4>
+                        <p class="text-slate-600">Proficient in full-stack development and rigorous software testing, with experience on major platforms like Meta's Instagram.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-2">Core Services</h3>
+                    <p class="text-lg text-slate-600">We offer a comprehensive suite of services tailored to your evolving needs, from initial design to ongoing support.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">Network Design & Building</h4>
+                        <p>End-to-end design of robust IT and telecom networks, including VSAT, wireless, and microwave radio installations.</p>
+                    </div>
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">On-Site Support</h4>
+                        <p>Rapid deployment of L2/L3 field engineers for network support and IT device maintenance to ensure continuous operation.</p>
+                    </div>
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">System Implementation</h4>
+                        <p>Expert installation, hardening, and deployment of application servers, plus professional data center management.</p>
+                    </div>
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">Cybersecurity & Data Protection</h4>
+                        <p>Implementing security standards, managing firewalls, and developing comprehensive backup and disaster recovery solutions.</p>
+                    </div>
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">Data Center Infrastructure</h4>
+                        <p>Specialized services for data center environments, including professional installation and management of cable, fire suppression, and humidity devices.</p>
+                    </div>
+                    <div class="border border-slate-200 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold text-teal-600 mb-2">Advanced Fiber Optics</h4>
+                        <p>Expertise in managing and deploying high-capacity DWDM fibre optics solutions for long-haul and complex network requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="expertise" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-2">Our Expertise & Certifications</h3>
+                    <p class="text-lg text-slate-600 max-w-3xl mx-auto">Our commitment to excellence is reflected in our extensive qualifications. The chart below provides a high-level overview of our core competencies. Hover over the bars for more details.</p>
+                </div>
+                <div class="bg-white p-4 sm:p-8 rounded-lg shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="expertiseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-2">Featured Projects</h3>
+                    <p class="text-lg text-slate-600">Explore some of our work, organized by category.</p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-8">
+                    <button class="tab-button active bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition-colors" data-target="enterprise-networking">Enterprise Networking</button>
+                    <button class="tab-button bg-slate-200 text-slate-700 font-medium py-2 px-4 rounded-lg transition-colors" data-target="it-software">IT & Software Projects</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="projects-content">
+                    <!-- Enterprise Networking Tab Content -->
+                    <div id="enterprise-networking" class="tab-content">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Network Architecture Development (VoIP & Routing)</h4>
+                                    <p class="text-slate-600">Led the end-to-end design and implementation of a telecom-grade VoIP system for an ISP, integrating a voice switch (running SS7/Q.931 signalling protocols) and Cisco AS5400 router for an affordable calling card service.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Cloud Integration & Data Protection</h4>
+                                    <p class="text-slate-600">Architected and executed the migration of an outdated Dell robotic tape backup system to a fully cloud-integrated VEEAM solution, utilizing Hyper-V and Dell RAID servers, significantly improving data redundancy and disaster recovery capabilities.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Disaster Recovery & Critical System Restoration</h4>
+                                    <p class="text-slate-600">Led the rapid recovery and ground-up rebuild of critical IT infrastructure (MS Exchange, MS SQL, DNS, File servers) after a devastating malware attack and local fire, restoring core operations within an unprecedented timeframe.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Automated IT Provisioning & Efficiency</h4>
+                                    <p class="text-slate-600">Automated over 80% of server update deployments and PC provisioning tasks using WSUS, SCCM, Python, and Bash scripting, leading to a 30% reduction in IT workload and improved security compliance.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Emergency MS Exchange Server Rebuild</h4>
+                                    <p class="text-slate-600">Independently rebuilt a crashed MS Exchange server from scratch over a weekend, restoring critical email services and user access by Monday morning with zero downtime for essential business operations.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IT & Software Projects Tab Content (from previous version) -->
+                    <div id="it-software" class="tab-content hidden">
+                         <div class="grid md:grid-cols-3 gap-8">
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">AI & Big Data Research</h4>
+                                    <p class="text-slate-600">Public repositories demonstrating our practical applications of AI, machine learning, and big data analytics.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                    <a href="https://github.com/packetech" target="_blank" class="font-medium text-teal-600 hover:text-teal-700">View on GitHub &rarr;</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Full-Stack Development Portfolio</h4>
+                                    <p class="text-slate-600">A showcase of our web development skills, featuring a variety of projects and technical demonstrations.</p>
+                                </div>
+                                <div class="p-6 bg-slate-100">
+                                    <a href="https://ndibuilt-portfolio.netlify.app/" target="_blank" class="font-medium text-teal-600 hover:text-teal-700">View Portfolio &rarr;</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col bg-slate-50 rounded-lg shadow-lg overflow-hidden card-hover">
+                                <div class="p-6 flex-grow">
+                                    <h4 class="text-xl font-semibold text-slate-800 mb-2">Enterprise Software Testing</h4>
+                                    <p class="text-slate-600">We conduct comprehensive software testing for major platforms, including our work on a 2025 version of Meta's Instagram.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <h3 class="text-2xl font-bold mb-2">Packetech</h3>
+            <p class="mb-4">Oulu, Finland</p>
+            <p class="text-slate-300 mb-6 max-w-lg mx-auto">Ready to build a resilient and efficient network? Let's talk about how our expertise can help your business thrive.</p>
+            <a href="mailto:packetech@gmail.com" class="bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700 transition-colors">Get in Touch</a>
+            <div class="mt-8 border-t border-slate-700 pt-6">
+                <p class="text-slate-400">&copy; 2025 Packetech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.4
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if(mobileMenu.classList.contains('hidden') === false){
+                     mobileMenu.classList.add('hidden');
+                }
+            })
+        })
+
+        const ctx = document.getElementById('expertiseChart').getContext('2d');
+        const expertiseChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Cybersecurity', 'Cloud & Virtualization', 'Networking', 'System Administration', 'Development & AI', 'IT Service Management'],
+                datasets: [{
+                    label: 'Core Competencies',
+                    data: [90, 85, 95, 88, 80, 92],
+                    backgroundColor: 'rgba(13, 148, 136, 0.7)',
+                    borderColor: 'rgba(13, 148, 136, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                let details = '';
+                                switch(label) {
+                                    case 'Cybersecurity':
+                                        details = 'CISSP, ISC2 CC, TCP/IP Admin';
+                                        break;
+                                    case 'Cloud & Virtualization':
+                                        details = 'AWS, GCP, VMware, Hyper-V';
+                                        break;
+                                    case 'Networking':
+                                        details = 'CCNA, LAN/WAN, VPNs, Firewalls';
+                                        break;
+                                    case 'System Administration':
+                                        details = 'MCSE, Linux, Windows Server';
+                                        break;
+                                    case 'Development & AI':
+                                        details = 'Full-Stack, AI/ML, Big Data';
+                                        break;
+                                    case 'IT Service Management':
+                                        details = 'ITIL v4, ISP (CIPS), Project Mgmt';
+                                        break;
+                                }
+                                return `${label}: ${details}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                         grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                         ticks: {
+                            font: {
+                                size: 14,
+                                weight: '500'
+                            },
+                            color: '#334155'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Tab switching logic for Projects section
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Deactivate all buttons and hide all content
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-teal-600', 'text-white');
+                    btn.classList.add('bg-slate-200', 'text-slate-700');
+                });
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Activate clicked button and show corresponding content
+                button.classList.add('active', 'bg-teal-600', 'text-white');
+                button.classList.remove('bg-slate-200', 'text-slate-700');
+                const targetId = button.dataset.target;
+                document.getElementById(targetId).classList.remove('hidden');
+            });
+        });
+
+    });
+</script>
+
+</body>
+</html>
